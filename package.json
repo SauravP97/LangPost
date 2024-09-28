@@ -1,0 +1,17 @@
+{
+  "name": "langpost",
+  "version": "1.0.0",
+  "description": "Agent that summarizes the Linkedin Articles into Post content",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js"
+  },
+  "author": "Saurav Prateek",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "typescript": "^5.6.2"
+  }
+}
