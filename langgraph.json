@@ -1,11 +1,8 @@
 {
-    "node_version": "20",
-    "dockerfile_lines": [],
-    "dependencies": [
-      "."
-    ],
-    "graphs": {
-      "langpost": "./src/few_shot_encoding.ts:app"
-    },
-    "env": ".env"
-  }
+  "dockerfile_lines": [],
+  "graphs": {
+    "langpost": "./src/few_shot_encoding.ts:app"
+  },
+  "env": ".env",
+  "node_version": "20"
+}
