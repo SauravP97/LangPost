@@ -3,13 +3,14 @@ import {
   SystemMessage,
   AIMessage,
   HumanMessage,
-  MessageContent
+  MessageContent,
 } from "@langchain/core/messages";
 import { BASE_PROMPT, DATASET_LIMIT_FOR_LLM } from "./constants";
 import { extractUrlContent } from "./extract_url_content";
 import { ChatOpenAI } from "@langchain/openai";
+import { END, MemorySaver, START, StateGraph } from "@langchain/langgraph";
 
-const fewShotEncoding = async (): Promise<MessageContent> => {
+const fewShotEncoding = async (state: GraphState) => {
   const messages = [new SystemMessage({ content: BASE_PROMPT })];
   let datasets = 0;
 
@@ -24,11 +25,7 @@ const fewShotEncoding = async (): Promise<MessageContent> => {
     datasets++;
   }
 
-  const articleUrlToSummarize =
-    "https://www.linkedin.com/pulse/how-github-suggests-tags-your-repositories-saurav-prateek/";
-  const articleContentToSummarize = await extractUrlContent(
-    articleUrlToSummarize
-  );
+  const articleContentToSummarize = await extractUrlContent(state.url);
   messages.push(new HumanMessage({ content: articleContentToSummarize }));
 
   const model = new ChatOpenAI({
@@ -38,7 +35,39 @@ const fewShotEncoding = async (): Promise<MessageContent> => {
 
   const summarizedContent = await model.invoke(messages);
   console.log(summarizedContent.content);
-  return summarizedContent.content;
+  return { postContent: summarizedContent.content };
 };
 
-export { fewShotEncoding };
+interface GraphState {
+  url: "";
+  postContent: MessageContent;
+}
+
+const graphState = {
+  url: null,
+  postContent: null,
+};
+
+const graph = new StateGraph<GraphState>({ channels: graphState })
+  .addNode("few_shot_encoding", fewShotEncoding)
+  .addEdge(START, "few_shot_encoding")
+  .addEdge("few_shot_encoding", END);
+
+const app = graph.compile({
+  checkpointer: new MemorySaver(),
+});
+
+async function startChat(url: string) {
+  const graphResponse: GraphState = await app.invoke(
+    {
+      url,
+    },
+    { configurable: { thread_id: "1" } }
+  );
+
+  //console.log(app.getGraph().drawMermaid());
+
+  return graphResponse;
+}
+
+export { startChat, app };
