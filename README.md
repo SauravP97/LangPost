@@ -3,7 +3,7 @@
 LangPost is an AI agent that creates a Linkedin post from a Linkedin newsletter article or any other blog post.
 
 <br>
-<img src="./media/langstudio-graph.png" width=450 height=280>
+<img src="./media/langstudio-graph.png">
 
 <br>
 
@@ -12,7 +12,7 @@ LangPost is an AI agent that creates a Linkedin post from a Linkedin newsletter 
 It utilizes the concept of Few Shot encoding. I have an example dataset that maintains a list of Linkedin Post corresponding to my Newsletter Articles. The dataset looks somewhat like this.
 
 <br>
-<img src="./media/dataset.png" width=450 height=280>
+<img src="./media/dataset.png">
 
 <br>
 
