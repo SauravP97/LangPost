@@ -20,7 +20,9 @@ I have made the LLM model aware of these examples so that it can generate simila
 
 The execution graph looks like this.
 
-[![Video Title](./media/langstudio-graph.png)](./media/graph-execute_mod.mp4)
+
+https://github.com/user-attachments/assets/7ce2692c-106b-44a6-94e1-468878c29cdd
+
 
 We provide the model with the URL of the article and it generates a personalized Linkedin Post for me after learning through the above examples.
 
